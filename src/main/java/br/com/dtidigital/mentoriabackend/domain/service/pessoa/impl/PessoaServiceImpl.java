@@ -1,6 +1,8 @@
 package br.com.dtidigital.mentoriabackend.domain.service.pessoa.impl;
 
+import br.com.dtidigital.mentoriabackend.api.v1.model.filter.PessoaFiltro;
 import br.com.dtidigital.mentoriabackend.api.v1.model.input.PessoaInput;
+import br.com.dtidigital.mentoriabackend.api.v1.model.output.PessoaOutput;
 import br.com.dtidigital.mentoriabackend.domain.entity.Pessoa;
 import br.com.dtidigital.mentoriabackend.domain.repository.PessoaRepository;
 import br.com.dtidigital.mentoriabackend.domain.service.PessoaService;
@@ -41,5 +43,15 @@ public class PessoaServiceImpl implements PessoaService {
         validarPessoaService.validar(pessoa);
 
         return pessoaRepository.save(pessoaMapper.toEntity(pessoa));
+    }
+
+    @Override
+    public PessoaOutput filtrar(PessoaFiltro pessoaFiltro) {
+        Pessoa pessoa = pessoaRepository.filtro(pessoaFiltro);
+        if(pessoa == null) {
+            return null;
+        }
+        return new PessoaOutput(pessoa.getApelido(), pessoa.getNome(), pessoa.getNascimento(), pessoa.getStacks(),
+            pessoa.getId());
     }
 }

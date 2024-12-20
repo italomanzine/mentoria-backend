@@ -1,12 +1,13 @@
 package br.com.dtidigital.mentoriabackend.api.v1.model.input;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public class PessoaInput {
     private String apelido;
     private String nome;
-    private String nascimento;
+    private LocalDate nascimento;
     private List<String> stack;
     private UUID id;
 
@@ -27,11 +28,11 @@ public class PessoaInput {
         this.nome = nome;
     }
 
-    public String getNascimento() {
+    public LocalDate getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(String nascimento) {
+    public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
 

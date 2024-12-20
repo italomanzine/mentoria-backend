@@ -7,7 +7,7 @@ import br.com.dtidigital.mentoriabackend.domain.service.ValidarPessoaService;
 public class ValidarDataNascimentoPessoaServiceImpl implements ValidarPessoaService {
     @Override
     public void validar(PessoaInput pessoa) {
-        if (pessoa.getNascimento() == null || !pessoa.getNascimento().matches("\\d{4}-\\d{2}-\\d{2}")) {
+        if (pessoa.getNascimento() == null || !pessoa.getNascimento().toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
             throw new PessoaInvalidaException("Nascimento é obrigatório e deve estar no formato AAAA-MM-DD");
         }
     }

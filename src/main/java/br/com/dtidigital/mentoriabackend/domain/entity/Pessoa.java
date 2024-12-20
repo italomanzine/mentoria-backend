@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -19,7 +20,7 @@ public class Pessoa implements Serializable {
     private UUID id;
     private String apelido;
     private String nome;
-    private String nascimento;
+    private LocalDate nascimento;
 
     @ElementCollection
     private List<String> stacks;
