@@ -54,4 +54,14 @@ public class PessoaServiceImpl implements PessoaService {
         return new PessoaOutput(pessoa.getApelido(), pessoa.getNome(), pessoa.getNascimento(), pessoa.getStacks(),
             pessoa.getId());
     }
+
+    @Override
+    public PessoaOutput buscarPorId(Long id) {
+        Pessoa pessoa = pessoaRepository.findById(id).orElse(null);
+        if(pessoa == null) {
+            return null;
+        }
+        return new PessoaOutput(pessoa.getApelido(), pessoa.getNome(), pessoa.getNascimento(), pessoa.getStacks(),
+            pessoa.getId());
+    }
 }

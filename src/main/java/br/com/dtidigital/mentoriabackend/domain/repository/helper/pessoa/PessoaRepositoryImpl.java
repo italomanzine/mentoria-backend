@@ -7,8 +7,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
-// TODO: Refatorar para adicionar função de adicionar filtro
-// TODO: Fazer um novo endpoint para buscar por ID
+// REVISAR
+// TODO: Refatorar para adicionar função de adicionar filtro [OK]
+// TODO: Fazer um novo endpoint para buscar por ID [OK]
 // TODO: LER SOBRE O DESIGN PATTERN BUILDER
 
 @Repository
@@ -19,34 +20,29 @@ public class PessoaRepositoryImpl implements PessoaQueries {
     @Override
     public Pessoa filtro(PessoaFiltro pessoaFiltro) {
         StringBuilder jpql = new StringBuilder("SELECT p FROM Pessoa p WHERE 1=1");
-        Query query = null;
-        if(pessoaFiltro != null){
-            if(pessoaFiltro.apelido() != null){
-                jpql.append(" AND p.apelido = :apelido");
-            }
-            if(pessoaFiltro.nome() != null){
-                jpql.append(" AND p.nome = :nome");
-            }
-            if(pessoaFiltro.dataNascimento() != null){
-                jpql.append(" AND p.dataNascimento = :dataNascimento");
-            }
-            query = entityManager.createQuery(jpql.toString(), Pessoa.class);
-
-            if(pessoaFiltro.apelido() != null){
-                query.setParameter("apelido", pessoaFiltro.apelido());
-
-            }
-            if(pessoaFiltro.nome() != null){
-                query.setParameter("nome", pessoaFiltro.nome());
-            }
-            if(pessoaFiltro.dataNascimento() != null){
-                query.setParameter("dataNascimento", pessoaFiltro.dataNascimento());
-            }
+        Query query = entityManager.createQuery(jpql.toString(), Pessoa.class);
+        if (pessoaFiltro != null) {
+            adicionarFiltros(pessoaFiltro, jpql, query);
         }
-        if(!query.getResultList().isEmpty()) {
+        if (!query.getResultList().isEmpty()) {
             return (Pessoa) query.getResultList().get(0);
         }
         return null;
+    }
+
+    private void adicionarFiltros(PessoaFiltro pessoaFiltro, StringBuilder jpql, Query query) {
+        if (pessoaFiltro.apelido() != null) {
+            jpql.append(" AND p.apelido = :apelido");
+            query.setParameter("apelido", pessoaFiltro.apelido());
+        }
+        if (pessoaFiltro.nome() != null) {
+            jpql.append(" AND p.nome = :nome");
+            query.setParameter("nome", pessoaFiltro.nome());
+        }
+        if (pessoaFiltro.dataNascimento() != null) {
+            jpql.append(" AND p.dataNascimento = :dataNascimento");
+            query.setParameter("dataNascimento", pessoaFiltro.dataNascimento());
+        }
     }
 }
 
