@@ -7,6 +7,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // REVISAR
 // TODO: Refatorar para adicionar função de adicionar filtro [OK]
 // TODO: Fazer um novo endpoint para buscar por ID [OK]
@@ -31,17 +34,29 @@ public class PessoaRepositoryImpl implements PessoaQueries {
     }
 
     private void adicionarFiltros(PessoaFiltro pessoaFiltro, StringBuilder jpql, Query query) {
+        Map<String, Object> filtros = new HashMap<>();
+
         if (pessoaFiltro.apelido() != null) {
             jpql.append(" AND p.apelido = :apelido");
-            query.setParameter("apelido", pessoaFiltro.apelido());
+            filtros.put("apelido", pessoaFiltro.apelido());
         }
         if (pessoaFiltro.nome() != null) {
             jpql.append(" AND p.nome = :nome");
-            query.setParameter("nome", pessoaFiltro.nome());
+            filtros.put("nome", pessoaFiltro.nome());
         }
         if (pessoaFiltro.dataNascimento() != null) {
             jpql.append(" AND p.dataNascimento = :dataNascimento");
-            query.setParameter("dataNascimento", pessoaFiltro.dataNascimento());
+            filtros.put("dataNascimento", pessoaFiltro.dataNascimento());
+        }
+
+        addParameters(jpql, filtros);
+    }
+
+    private void addParameters(StringBuilder jpql, Map<String, Object> filtros) {
+        Query query;
+        query = entityManager.createQuery(jpql.toString(), Pessoa.class);
+        for (Map.Entry<String, Object> entry : filtros.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
         }
     }
 }

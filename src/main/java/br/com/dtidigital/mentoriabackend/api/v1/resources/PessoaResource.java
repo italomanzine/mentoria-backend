@@ -24,22 +24,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(
         @Autowired))
 @RequestMapping("/api/v1/pessoas")
-public class PessoaResource {
+public class PessoaResource implements PessoaResourceInterface {
 
     private final PessoaService pessoaService;
 
-    @PostMapping
+    @Override
     public ResponseEntity<Pessoa> create(@RequestBody PessoaInput pessoaInput) {
         Pessoa pessoa = pessoaService.salvar(pessoaInput);
 
         return ResponseEntity.ok().body(pessoa);
     }
 
-    // TODO: Implementar os endpoints de DELETE e PUT [ok]
     // Método de validação manual
     // Método para buscar pessoa por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<PessoaOutput> getPessoaById(@PathVariable Long id) {
+    @Override
+    public ResponseEntity<PessoaOutput> getPessoaById(@PathVariable String id) {
         PessoaOutput pessoa = pessoaService.buscarPorId(id);
         if (pessoa == null) {
             return ResponseEntity.notFound().build();
@@ -48,8 +47,8 @@ public class PessoaResource {
     }
 
     // Método para atualizar pessoa
-    @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> updatePessoa(@PathVariable Long id, @RequestBody PessoaInput pessoaInput) {
+    @Override
+    public ResponseEntity<Pessoa> updatePessoa(@PathVariable String id, @RequestBody PessoaInput pessoaInput) {
         Pessoa pessoaAtualizada = pessoaService.atualizar(id, pessoaInput);
         if (pessoaAtualizada == null) {
             return ResponseEntity.notFound().build();
@@ -58,15 +57,14 @@ public class PessoaResource {
     }
 
     // Método para deletar pessoa
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePessoa(@PathVariable Long id) {
+    @Override
+    public ResponseEntity<Void> deletePessoa(@PathVariable String id) {
         pessoaService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 
     // Método para buscar pessoa pelo Filtro
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/filter")
+    @Override
     public PessoaOutput getPessoaByFilter(PessoaFiltro pessoaFiltro) {
         return pessoaService.filtrar(pessoaFiltro);
     }

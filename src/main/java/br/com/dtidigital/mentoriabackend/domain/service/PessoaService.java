@@ -11,7 +11,7 @@ import br.com.dtidigital.mentoriabackend.domain.entity.Pessoa;
 public interface PessoaService {
     Pessoa salvar(PessoaInput pessoa);
     PessoaOutput filtrar(PessoaFiltro pessoaFiltro);
-    PessoaOutput buscarPorId(Long id);
-    Pessoa atualizar(Long id, PessoaInput pessoaInput);
-    void deletar(Long id);
+    PessoaOutput buscarPorId(String id);
+    Pessoa atualizar(String id, PessoaInput pessoaInput);
+    void deletar(String id);
 }
