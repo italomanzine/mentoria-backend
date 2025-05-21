@@ -31,7 +31,9 @@ public class PessoaResource implements PessoaResourceInterface {
     @Override
     public ResponseEntity<Pessoa> create(@RequestBody PessoaInput pessoaInput) {
         Pessoa pessoa = pessoaService.salvar(pessoaInput);
-
+        if (1 == 1) {
+            throw new InternalError("Erro interno");
+        }
         return ResponseEntity.ok().body(pessoa);
     }
 
