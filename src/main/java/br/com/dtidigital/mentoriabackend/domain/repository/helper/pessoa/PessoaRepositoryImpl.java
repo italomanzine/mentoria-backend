@@ -10,11 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.Map;
 
-// REVISAR
-// TODO: Refatorar para adicionar função de adicionar filtro [OK]
-// TODO: Fazer um novo endpoint para buscar por ID [OK]
-// TODO: LER SOBRE O DESIGN PATTERN BUILDER
-
 @Repository
 public class PessoaRepositoryImpl implements PessoaQueries {
     @PersistenceContext
